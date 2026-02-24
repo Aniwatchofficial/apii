@@ -1,10 +1,13 @@
 {
     "name": "blogger-video-api",
-    "version": "1.0.0",
-    "description": "Blogger video URL extractor API for Vercel",
+    "version": "2.0.0",
+    "description": "Blogger video URL extractor — Puppeteer edition",
     "main": "index.js",
     "scripts": {
         "dev": "vercel dev"
     },
-    "dependencies": {}
+    "dependencies": {
+        "@sparticuz/chromium": "^133.0.0",
+        "puppeteer-core": "^22.0.0"
+    }
 }
