@@ -83,10 +83,28 @@ module.exports = async function handler(req, res) {
         const blM = html.match(/"cfb2h"\s*:\s*"([^"]+)"/);
         if (blM) bl = blM[1];
 
-        // XSRF token (usually absent for public videos)
+        // XSRF at-token — try multiple locations:
+        // 1. Standard WIZ_global_data key (most Google apps)
         let at = '';
-        const atM = html.match(/"SNlM0e"\s*:\s*"([^"]+)"/);
-        if (atM) at = atM[1];
+        const atM1 = html.match(/"SNlM0e"\s*:\s*"([^"]+)"/);
+        if (atM1) at = atM1[1];
+
+        // 2. IJ_values[9] — Blogger stores it as: 'NONCE','XSRF','DEFAULT'
+        //    Pattern: two base64-like strings then 'DEFAULT'
+        if (!at) {
+            const ijM = html.match(/\'([A-Za-z0-9+/=_-]{20,})\'\s*,\s*\'([A-Za-z0-9+/=_-]{20,})\'\s*,\s*\'DEFAULT\'/);
+            if (ijM) at = ijM[2]; // second string is the XSRF token
+        }
+
+        // 3. Nonce → next value in IJ_values: 'NONCE_VALUE','XSRF_VALUE'
+        if (!at) {
+            const nonceM = html.match(/nonce="([^"]+)"/);
+            if (nonceM) {
+                const escaped = nonceM[1].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const ijM2 = html.match(new RegExp(`'${escaped}'\\s*,\\s*'([^']+)'`));
+                if (ijM2) at = ijM2[1];
+            }
+        }
 
         /* ══════════════════════════════════════════════════════
            STEP 2 — Old VIDEO_CONFIG scraping (pre-2025 fallback)
