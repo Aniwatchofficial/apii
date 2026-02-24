@@ -4,6 +4,10 @@
         {
             "src": "/api/v1/blogger/(.*)",
             "dest": "/api/blogger.js"
+        },
+        {
+            "src": "/api/debug",
+            "dest": "/api/debug.js"
         }
     ]
 }
