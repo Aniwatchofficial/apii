@@ -1,0 +1,9 @@
+{
+    "version": 2,
+    "routes": [
+        {
+            "src": "/api/v1/blogger/(.*)",
+            "dest": "/api/blogger.js"
+        }
+    ]
+}
