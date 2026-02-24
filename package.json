@@ -1,12 +1,10 @@
 {
-  "name": "blogger-video-api",
-  "version": "1.0.0",
-  "description": "Blogger video URL extractor API for Vercel",
-  "main": "index.js",
-  "scripts": {
-    "dev": "vercel dev"
-  },
-  "dependencies": {
-    "node-fetch": "^3.3.2"
-  }
+    "name": "blogger-video-api",
+    "version": "1.0.0",
+    "description": "Blogger video URL extractor API for Vercel",
+    "main": "index.js",
+    "scripts": {
+        "dev": "vercel dev"
+    },
+    "dependencies": {}
 }
